@@ -4,11 +4,15 @@ on:
   push:
     branches: [ main ]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # Node 20 경고 제거
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: 소스코드 체크아웃
+        uses: actions/checkout@v4
 
       - name: Docker Hub 로그인
         uses: docker/login-action@v3
@@ -16,12 +20,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # 1. 백엔드 이미지 빌드 & 푸시
       - name: Backend Docker Build & Push
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/yj-backend:latest ./backend
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/yj-backend:latest
 
+      # 2. 프론트엔드 이미지 빌드 & 푸시 (중첩된 경로 반영)
       - name: Frontend Docker Build & Push
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/yj-frontend:latest ./frontend
+          # 핵심: ./frontend 가 아니라 ./frontend/frontend 로 경로를 수정했습니다.
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/yj-frontend:latest ./frontend/frontend
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/yj-frontend:latest

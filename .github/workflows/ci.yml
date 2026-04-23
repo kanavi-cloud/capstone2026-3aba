@@ -30,7 +30,8 @@ jobs:
         with:
           node-version: 18
       - name: 의존성 설치 & 빌드
-        working-directory: frontend
+        # 경로를 원래 폴더 위치인 frontend/frontend로 설정
+        working-directory: frontend/frontend
         run: |
           npm install
-          npm run build  # <- 여기에 있어야 함
+          npm run build
