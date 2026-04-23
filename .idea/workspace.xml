@@ -7,12 +7,12 @@
     <list default="true" id="b0c75e8b-77dc-4a1c-a7a5-2cb6441d253d" name="변경" comment="">
       <change afterPath="$PROJECT_DIR$/frontend/frontend/Dockerfile" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/frontend/frontend/public/login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/projectinfo.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/frontend" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/projectinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/projectinfo.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +27,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/frontend/frontend" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory"><![CDATA[{
   "lastFilter": {
