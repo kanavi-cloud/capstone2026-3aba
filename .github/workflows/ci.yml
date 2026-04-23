@@ -29,7 +29,6 @@ jobs:
         run: |
           cd backend
           ./mvnw clean package -DskipTests  # Test실행은 skip
-
   # ── Job 2: 프론트엔드 빌드 ──
   frontend-ci:
     runs-on: ubuntu-latest
@@ -42,7 +41,8 @@ jobs:
           node-version: 18
 
       - name: 의존성 설치 & 빌드
+        # 아래처럼 working-directory를 지정하면 해당 폴더 내에서 명령어가 실행됩니다.
+        working-directory: frontend
         run: |
-          cd frontend
           npm install
           npm run build
