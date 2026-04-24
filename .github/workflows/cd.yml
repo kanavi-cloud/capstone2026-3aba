@@ -1,20 +1,43 @@
-# 1. 백엔드 JAR 파일 빌드 (도커 빌드 전에 수행 필수)
-- name: Backend Build (Maven)
-  run: |
-    cd backend
-    chmod +x mvnw
-    ./mvnw clean package -DskipTests
+name: CD Pipeline
 
-# 2. 백엔드 이미지 빌드 & 푸시
-- name: Backend Docker Build & Push
-  run: |
-    # 이제 backend/target/*.jar 파일이 존재하므로 빌드가 성공합니다.
-    docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/yj-backend:latest ./backend
-    docker push ${{ secrets.DOCKERHUB_USERNAME }}/yj-backend:latest
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
-# 3. 프론트엔드 이미지 빌드 & 푸시
-- name: Frontend Docker Build & Push
-  run: |
-    LOWER_USER=$(echo "${{ secrets.DOCKERHUB_USERNAME }}" | tr '[:upper:]' '[:lower:]')
-    docker build -t $LOWER_USER/yj-frontend:latest ./frontend/frontend
-    docker push $LOWER_USER/yj-frontend:latest
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 소스코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Docker Hub 로그인
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 1. 백엔드 JAR 파일 빌드 (도커 빌드 전에 반드시 필요)
+      - name: Backend Build (Maven)
+        run: |
+          cd backend
+          chmod +x mvnw
+          ./mvnw clean package -DskipTests
+
+      # 2. 백엔드 이미지 빌드 & 푸시
+      - name: Backend Docker Build & Push
+        run: |
+          LOWER_USER=$(echo "${{ secrets.DOCKERHUB_USERNAME }}" | tr '[:upper:]' '[:lower:]')
+          docker build -t $LOWER_USER/yj-backend:latest ./backend
+          docker push $LOWER_USER/yj-backend:latest
+
+      # 3. 프론트엔드 이미지 빌드 & 푸시
+      - name: Frontend Docker Build & Push
+        run: |
+          LOWER_USER=$(echo "${{ secrets.DOCKERHUB_USERNAME }}" | tr '[:upper:]' '[:lower:]')
+          docker build -t $LOWER_USER/yj-frontend:latest ./frontend/frontend
+          docker push $LOWER_USER/yj-frontend:latest
