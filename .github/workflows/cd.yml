@@ -3,9 +3,10 @@ name: CD Pipeline
 on:
   push:
     branches: [ main ]
+  workflow_dispatch: # 수동 실행 버튼 추가
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # Node 20 경고 제거
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build-and-push:
@@ -20,15 +21,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 1. 백엔드 이미지 빌드 & 푸시
-      - name: Backend Docker Build & Push
+      - name: Backend 빌드 & 푸시
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/yj-backend:latest ./backend
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/yj-backend:latest
 
-      # 2. 프론트엔드 이미지 빌드 & 푸시 (중첩된 경로 반영)
-      - name: Frontend Docker Build & Push
+      - name: Frontend 빌드 & 푸시
         run: |
-          # 핵심: ./frontend 가 아니라 ./frontend/frontend 로 경로를 수정했습니다.
+          # 현재 구조인 frontend/frontend 경로 반영
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/yj-frontend:latest ./frontend/frontend
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/yj-frontend:latest
